@@ -1,5 +1,5 @@
-node_modules
-config
+node_modules/
+config/
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
