@@ -28,9 +28,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      minlength: 7,
       validate(value) {
-        if (value.toLowerCase().includes("password")) {
+        if (value.length < 7) {
+          throw new Error("Password must contain at least 7 characters.");
+        } else if (value.toLowerCase().includes("password")) {
           throw new Error('Password cannot contain the word "password".');
         }
       },
