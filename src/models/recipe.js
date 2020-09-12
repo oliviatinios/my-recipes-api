@@ -26,14 +26,14 @@ const recipeSchema = new mongoose.Schema(
     },
     ingredients: [
       {
-        ingredient: {
+        value: {
           type: String,
         },
       },
     ],
     steps: [
       {
-        step: {
+        value: {
           type: String,
         },
       },
