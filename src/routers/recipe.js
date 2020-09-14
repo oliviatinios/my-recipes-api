@@ -19,7 +19,8 @@ router.post("/recipes", auth, async (req, res) => {
   }
 });
 
-// GET /recipes?completed=false
+// GET /recipes?title='Burrito Bowl'
+// TODO: GET /recipes?ingredients[]='Rice'
 // GET /recipes?limit=10&skip=10
 // GET /recipes?sortBy=createdAt_desc
 router.get("/recipes", auth, async (req, res) => {
@@ -27,8 +28,8 @@ router.get("/recipes", auth, async (req, res) => {
   const match = {};
   const sort = {};
 
-  if (req.query.completed) {
-    match.completed = req.query.completed === "true";
+  if (req.query.title) {
+    match.title = req.query.title;
   }
 
   if (req.query.sortBy) {
