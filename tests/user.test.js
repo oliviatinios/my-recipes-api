@@ -105,3 +105,38 @@ test("Should delete account for user", async () => {
 test("Should not delete account for unauthenticated user", async () => {
   await request(app).delete("/users/me").send().expect(401);
 });
+
+test("Should update valid user fields", async () => {
+  const response = await request(app)
+    .patch("/users/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({
+      name: "Olivia Tinios",
+    })
+    .expect(200);
+
+  // Assert that the data in the database reflects the changes made
+  const user = await User.findById(userOneId);
+  expect(user).toMatchObject({
+    name: "Olivia Tinios",
+  });
+});
+
+test("Should not update invalid user fields", async () => {
+  await request(app)
+    .patch("/users/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({
+      age: 22,
+    })
+    .expect(400);
+});
+
+test("Should not update unauthenticated user", async () => {
+  await request(app)
+    .patch("/users/me")
+    .send({
+      name: "Olivia Tinios",
+    })
+    .expect(401);
+});
