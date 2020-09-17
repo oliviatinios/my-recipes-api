@@ -5,7 +5,7 @@ const { userOneId, userOne, populateDatabase } = require("./fixtures/db");
 
 beforeEach(populateDatabase);
 
-test("Should signup a new user", async () => {
+test("Should signup new user", async () => {
   const response = await request(app)
     .post("/users")
     .send({
@@ -30,6 +30,50 @@ test("Should signup a new user", async () => {
 
   // Assert that plain text password was not stored in database
   expect(user.password).not.toBe("MyPass222!");
+});
+
+test("Should not signup new user with invalid name", async () => {
+  const response = await request(app)
+    .post("/users")
+    .send({
+      name: "",
+      email: "olivia@example.ca",
+      password: "MyPass222!",
+    })
+    .expect(400);
+});
+
+test("Should not signup new user with invalid email", async () => {
+  const response = await request(app)
+    .post("/users")
+    .send({
+      name: "Olivia",
+      email: "example.ca",
+      password: "MyPass222!",
+    })
+    .expect(400);
+});
+
+test("Should not signup new user with password containing 'password'", async () => {
+  const response = await request(app)
+    .post("/users")
+    .send({
+      name: "",
+      email: "olivia@example.ca",
+      password: "password",
+    })
+    .expect(400);
+});
+
+test("Should not signup new user with password less than 7 characters", async () => {
+  const response = await request(app)
+    .post("/users")
+    .send({
+      name: "",
+      email: "olivia@example.ca",
+      password: "password123",
+    })
+    .expect(400);
 });
 
 test("Should login existing user", async () => {
@@ -107,6 +151,36 @@ test("Should not update invalid user fields", async () => {
     .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
     .send({
       age: 22,
+    })
+    .expect(400);
+});
+
+test("Should not update user with invalid email", async () => {
+  await request(app)
+    .patch("/users/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({
+      email: "example.com",
+    })
+    .expect(400);
+});
+
+test("Should not update user with password containing 'password'", async () => {
+  await request(app)
+    .patch("/users/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({
+      password: "password123",
+    })
+    .expect(400);
+});
+
+test("Should not update user with password less than 7 characters", async () => {
+  await request(app)
+    .patch("/users/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({
+      password: "123",
     })
     .expect(400);
 });
