@@ -1,7 +1,7 @@
 const request = require("supertest");
 const app = require("../src/app");
 const User = require("../src/models/user");
-const { userOneId, userOne, populateDatabase } = require("../fixtures/db");
+const { userOneId, userOne, populateDatabase } = require("./fixtures/db");
 
 beforeEach(populateDatabase);
 

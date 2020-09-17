@@ -24,7 +24,7 @@ const populateDatabase = async () => {
   await new User(userOne).save();
 };
 
-modules.exports = {
+module.exports = {
   userOneId,
   userOne,
   populateDatabase,
