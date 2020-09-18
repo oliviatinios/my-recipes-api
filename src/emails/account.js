@@ -9,6 +9,7 @@ const sendWelcomeEmail = (email, name) => {
     to: email,
     from: "tinioso@mcmaster.ca",
     subject: "Welcome to My Recipes!",
+    // TODO: send html page
     text: `Welcome, ${name}! Let me know how you get along with the app.`,
   });
 };
