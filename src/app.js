@@ -14,7 +14,8 @@ const swaggerOptions = {
     info: {
       title: "My Recipes API",
       version: "1.0.0",
-      description: "My Recipes API Information",
+      description:
+        "To get started, create a new user. You can then use the token from the response object to authorize other requests.",
       servers: ["http://localhost:3000"],
     },
     components: {
